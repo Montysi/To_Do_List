@@ -4,6 +4,7 @@ import './App.css'
 const App = () => {
   const [taskList, setTaskList] = useState([]);
   const [inputValue, setInputValue] = useState("");
+  const [finishedTasks, setFinishedTasks] = useState([]);
 
   const addListItem = () => {
     if (inputValue.trim() !== "") { //The use of trim here ensures that there is no empty space before or after the input, keeping the to do list tidy and within the provided space, also prevents the user from adding an empty string
@@ -18,12 +19,20 @@ const App = () => {
     setTaskList(removeTask);
   };
 
+  const finishTask = (index) => {
+    const finishedTask = taskList[index];
+    removeListItem(index);
+    setFinishedTasks([...finishedTasks, finishedTask]);
+  }
+
   return (
     <div>
+      <h2>Tasks to complete</h2>
       {taskList.map((task, index) => (
         <div key={index}>
           <p className="listItem">{task}</p>
           <button onClick={() => removeListItem(index)}>Delete</button>
+          <button onClick={() => finishTask(index)}>Complete</button>
         </div>
       ))}
       <input
@@ -31,25 +40,18 @@ const App = () => {
         onChange={(event) => setInputValue(event.target.value)}
       />
       <button onClick={addListItem}>Add</button>
+
+      <h2>Completed Tasks</h2>
+      {
+      finishedTasks.map((task, index) => (
+        <div key={index}>
+          <p className="listItem">{task}</p>
+        </div>
+      ))
+      }
     </div>
   );
 }
 
 export default App
 
-
-// const addListItem = () =>{
-//       let storedTasks = [...taskList];
-//       storedTasks.push(storedTasks[storedTasks.length - 1] + 1)
-//       addTaskList(storedTasks)
-
-
-// return (
-//   <div>
-//     {taskList.map((task, index) => {
-//       return <p key={index}></p>;
-//     })}
-//     <input></input>
-//     <button onClick={addListItem}>Add</button>
-//   </div>
-// );
