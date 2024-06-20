@@ -48,18 +48,18 @@ const App = () => {
       <div className="parentContainer">
         <div className="listWrapperMain">
           <div className="toCompleteList">
-            <h2>Tasks to complete</h2>
+            <h2 className="textConfig">Tasks to complete</h2>
             {taskList.map((task, index) => (
               <div key={index}>
                 <p className="listItem">{task}</p>
                 <button onClick={() => removeListItem(index)}>Delete</button>
-                <button onClick={() => taskInProgress(index)}>Active</button>
+                <button className="buttonStyle" onClick={() => taskInProgress(index)}>Active</button>
               </div>
             ))}
           </div>
 
           <div className="inProgressList">
-            <h2>Tasks in Progress</h2>
+            <h2 className="textConfig">Tasks in Progress</h2>
             {inProgressTasks.map((task, index) => (
               <div key={index}>
                 <p className="listItem">{task}</p>
@@ -70,10 +70,12 @@ const App = () => {
           </div>
 
           <div className="completedList">
-            <h2>Completed Tasks</h2>
+            <h2 className="textConfig">Completed Tasks</h2>
             {finishedTasks.map((task, index) => (
               <div key={index}>
-                <p className="listItem">{task}</p>
+                <p className="listItem">
+                  {task}
+                </p>
                 <button onClick={() => removeListItem(index)}>Delete</button>
               </div>
             ))}
