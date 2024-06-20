@@ -16,7 +16,9 @@ const App = () => {
   // asked ChatGPT why this code wasn't working, the _ on line 18 is needed as a placeholder. Even if it has no value, javaScript functions need at least one parameter to work.
   const removeListItem = (index) => {
     const removeTask = taskList.filter((_, i) => i !== index); //.filter method returns new array without affecting the original (have I made it too complicated, or is this required to isolate and remove a single task?)
+    const removeFinishedTask = finishedTasks.filter((_, i) => i !== index);
     setTaskList(removeTask);
+    setFinishedTasks(removeFinishedTask);
   };
 
   const finishTask = (index) => {
@@ -27,28 +29,35 @@ const App = () => {
 
   return (
     <div>
-      <h2>Tasks to complete</h2>
-      {taskList.map((task, index) => (
-        <div key={index}>
-          <p className="listItem">{task}</p>
-          <button onClick={() => removeListItem(index)}>Delete</button>
-          <button onClick={() => finishTask(index)}>Complete</button>
+      <div className="inputBoxWrapper">
+        <input
+          value={inputValue}
+          onChange={(event) => setInputValue(event.target.value)}
+        />
+        <button onClick={addListItem}>Add</button>
+      </div>
+      <div className="listWrapperMain">
+        <div className="toCompleteList">
+          <h2>Tasks to complete</h2>
+          {taskList.map((task, index) => (
+            <div key={index}>
+              <p className="listItem">{task}</p>
+              <button onClick={() => removeListItem(index)}>Delete</button>
+              <button onClick={() => finishTask(index)}>Complete</button>
+            </div>
+          ))}
         </div>
-      ))}
-      <input
-        value={inputValue}
-        onChange={(event) => setInputValue(event.target.value)}
-      />
-      <button onClick={addListItem}>Add</button>
 
-      <h2>Completed Tasks</h2>
-      {
-      finishedTasks.map((task, index) => (
-        <div key={index}>
-          <p className="listItem">{task}</p>
+        <div className="completedList">
+          <h2>Completed Tasks</h2>
+          {finishedTasks.map((task, index) => (
+            <div key={index}>
+              <p className="listItem">{task}</p>
+              <button onClick={() => removeListItem(index)}>Delete</button>
+            </div>
+          ))}
         </div>
-      ))
-      }
+      </div>
     </div>
   );
 }

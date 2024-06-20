@@ -8,3 +8,20 @@
 .listItem {
   display: inline;
 }
+
+.listWrapperMain {
+  display: flex;
+  justify-content: space-evenly;
+  border: 2px solid white;
+  width: 80vh;
+}
+
+.toCompleteList {
+  border: 2px solid white;
+  width: 100%;
+}
+
+.completedList {
+  border: 2px solid white;
+  width: 100%
+}
