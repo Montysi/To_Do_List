@@ -4,6 +4,7 @@ import './App.css'
 const App = () => {
   const [taskList, setTaskList] = useState([]);
   const [inputValue, setInputValue] = useState("");
+  const [inProgressTasks, setInProgressTasks] = useState([]);
   const [finishedTasks, setFinishedTasks] = useState([]);
 
   const addListItem = () => {
@@ -17,18 +18,26 @@ const App = () => {
   const removeListItem = (index) => {
     const removeTask = taskList.filter((_, i) => i !== index); //.filter method returns new array without affecting the original (have I made it too complicated, or is this required to isolate and remove a single task?)
     const removeFinishedTask = finishedTasks.filter((_, i) => i !== index);
+    const removeInProgressTask = inProgressTasks.filter((_, i) => i !== index);
     setTaskList(removeTask);
     setFinishedTasks(removeFinishedTask);
+    setInProgressTasks(removeInProgressTask);
   };
 
+  const taskInProgress = (index) => {
+    const inProgressTask = taskList[index];
+    removeListItem(index);
+    setInProgressTasks([...inProgressTasks, inProgressTask])
+  }
+
   const finishTask = (index) => {
-    const finishedTask = taskList[index];
+    const finishedTask = inProgressTasks[index];
     removeListItem(index);
     setFinishedTasks([...finishedTasks, finishedTask]);
   }
 
   return (
-    <div>
+    <>
       <div className="inputBoxWrapper">
         <input
           value={inputValue}
@@ -36,29 +45,42 @@ const App = () => {
         />
         <button onClick={addListItem}>Add</button>
       </div>
-      <div className="listWrapperMain">
-        <div className="toCompleteList">
-          <h2>Tasks to complete</h2>
-          {taskList.map((task, index) => (
-            <div key={index}>
-              <p className="listItem">{task}</p>
-              <button onClick={() => removeListItem(index)}>Delete</button>
-              <button onClick={() => finishTask(index)}>Complete</button>
-            </div>
-          ))}
-        </div>
+      <div className="parentContainer">
+        <div className="listWrapperMain">
+          <div className="toCompleteList">
+            <h2>Tasks to complete</h2>
+            {taskList.map((task, index) => (
+              <div key={index}>
+                <p className="listItem">{task}</p>
+                <button onClick={() => removeListItem(index)}>Delete</button>
+                <button onClick={() => taskInProgress(index)}>Active</button>
+              </div>
+            ))}
+          </div>
 
-        <div className="completedList">
-          <h2>Completed Tasks</h2>
-          {finishedTasks.map((task, index) => (
-            <div key={index}>
-              <p className="listItem">{task}</p>
-              <button onClick={() => removeListItem(index)}>Delete</button>
-            </div>
-          ))}
+          <div className="inProgressList">
+            <h2>Tasks in Progress</h2>
+            {inProgressTasks.map((task, index) => (
+              <div key={index}>
+                <p className="listItem">{task}</p>
+                <button onClick={() => finishTask(index)}>Complete</button>
+                <button onClick={() => removeListItem(index)}>Delete</button>
+              </div>
+            ))}
+          </div>
+
+          <div className="completedList">
+            <h2>Completed Tasks</h2>
+            {finishedTasks.map((task, index) => (
+              <div key={index}>
+                <p className="listItem">{task}</p>
+                <button onClick={() => removeListItem(index)}>Delete</button>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

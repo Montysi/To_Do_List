@@ -9,11 +9,24 @@
   display: inline;
 }
 
+.parentContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.inputBoxWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .listWrapperMain {
   display: flex;
   justify-content: space-evenly;
-  border: 2px solid white;
-  width: 80vh;
+  border: 2px solid transparent;
+  width: 1500px;
+  margin: auto;
+  
 }
 
 .toCompleteList {
@@ -24,4 +37,9 @@
 .completedList {
   border: 2px solid white;
   width: 100%
+}
+
+.inProgressList {
+  border: 2px solid white;
+  width: 100%;
 }
